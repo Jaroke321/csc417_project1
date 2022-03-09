@@ -31,84 +31,23 @@ export default class App extends Component {
     });
   }
 
-  // renders a single row
-  singleRow = (row) => {
-
-    // determine the color of the title column
-    let color = "text-dark";
-    if ((row.took && (row.grade === '')) || (!row.took && !(row.grade === ''))) {
-      color = "text-danger"
-    }
-
-    // render a single row
-    return (
-        <tr key={ row.id }>
-        <td>{ row.id }</td>
-        <td className={ color }>{ row.title }</td>
-        <td>{ row.grade }</td>
-        <td>{ row.took ? "True" : "False" }</td>
-        <td>
-          <input type="checkbox" checked={ row.took } onChange={ () => this.toggleTook(row) } />
-        </td>
-      </tr>
-    )
-
-  }
-
-  // Filters the courses by search term and renders each course as a row
-  classRows = () => this.state.classes.filter(t => t.grade === this.state.gradeSearchText).map(item => 
-    // For each row with the search term as grade, render the row
-    this.singleRow(item)
-
-  );
-
-  // Displays all of the rows
-  displayAllRows = () => this.state.classes.map(item => 
-    // For all classes render a row
-    this.singleRow(item)
-  
-  );
-
   // Driver function that creates the display
-  render = () => {
-
-    // First determine what rows should be rendered based on the search term
-    let rows;
-    if (this.state.gradeSearchText === 'all') {
-      rows = this.displayAllRows();
-    } else if (this.state.gradeSearchText === '') {
-      // Intentionally blank
-    } else {
-      rows = this.classRows();
-    }
-
-    // Create the HTML with the correct rows determined above
-    return (
+  render = () => 
+    
       <div>
-        <SearchBar gradeSearchText={ this.state.gradeSearchText } callback={ this.updateGradeSearchText } />
-        <div className='container-fluid'>
-          <table className='table table-striped table-bordered'>
-            <thead>
-              <tr className='bg-info text-white'>
-                <th>
-                  id
-                </th>
-                <th>
-                  Title
-                </th>
-                <th>
-                  Grade
-                </th>
-                <th>
-                  Took
-                </th>
-                <th>Toggle Took</th>
-              </tr>
-            </thead>
-            <tbody>{ rows }</tbody>
-          </table>
+        <div className='bg-primary text-center m-2'>
+          <span class='d-inline-block'>
+            <p className='text-white'>Enter in a letter grade:</p>
+          </span>
+          <span class='d-inline-block'>
+            <SearchBar gradeSearchText={ this.state.gradeSearchText } callback={ this.updateGradeSearchText } />
+          </span>
+        </div>
+
+        <div className='container-fluid px-4 table-responsive'>
+          <Table gradeSearchText={ this.state.gradeSearchText } classes={ this.state.classes } callback={this.toggleTook} />
         </div>
       </div>
-    )
-  }
+    
+  
 }

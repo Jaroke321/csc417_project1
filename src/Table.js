@@ -6,16 +6,15 @@ export class Table extends Component {
         super(props);
         this.state = {}
 
-
     }
 
     // renders a single row
     singleRow = (row) => {
 
         // determine the color of the title column
-        let color = "text-dark";
+        let color = "table-light";
         if ((row.took && (row.grade === '')) || (!row.took && !(row.grade === ''))) {
-        color = "text-danger"
+            color = "table-danger"
         }
 
         // render a single row
@@ -26,7 +25,7 @@ export class Table extends Component {
                 <td>{ row.grade }</td>
                 <td>{ row.took ? "True" : "False" }</td>
                 <td>
-                    <input type="checkbox" checked={ row.took } onChange={ () => this.toggleTook(row) } />
+                    <input type="checkbox" checked={ row.took } onChange={ () => this.props.callback(row) } />
                 </td>
             </tr>
         )
@@ -34,14 +33,14 @@ export class Table extends Component {
     }
 
     // Displays all of the rows
-    displayAllRows = () => this.state.classes.map(item => 
+    displayAllRows = () => this.props.classes.map(item => 
         // For all classes render a row
         this.singleRow(item)
   
     );
 
     // Filters the courses by search term and renders each course as a row
-    classRows = () => this.state.classes.filter(t => t.grade === this.state.gradeSearchText).map(item => 
+    classRows = () => this.props.classes.filter(t => t.grade === this.props.gradeSearchText).map(item => 
         // For each row with the search term as grade, render the row
         this.singleRow(item)
 
@@ -51,26 +50,27 @@ export class Table extends Component {
 
         // First determine what rows should be rendered based on the search term
         let rows;
-        if (this.state.gradeSearchText === 'all') {
+        if (this.props.gradeSearchText === 'all') {
             rows = this.displayAllRows();
-        } else if (this.state.gradeSearchText === '') {
+        } else if (this.props.gradeSearchText === '') {
         // Intentionally blank
         } else {
             rows = this.classRows();
         }
+
         return (
-            <table className='table table-striped table-bordered'>
+            <table className='table table-bordered table-hover'>
                 <thead>
                     <tr className='bg-info text-white'>
                         <th>id</th>
-                    <th>Title</th>
-                    <th>Grade</th>
-                    <th>Took</th>
-                    <th>Toggle Took</th>
-                </tr>
-            </thead>
-            <tbody>{ rows }</tbody>
-        </table>
+                        <th>Title</th>
+                        <th>Grade</th>
+                        <th>Took</th>
+                        <th>Toggle Took</th>
+                    </tr>
+                </thead>
+                <tbody>{ rows }</tbody>
+            </table>
         )
     }
 }
