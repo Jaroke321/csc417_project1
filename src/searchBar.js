@@ -4,13 +4,13 @@ export class SearchBar extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { gradeSearchText: "" }
+        //this.state = { gradeSearchText: "" }
     }
 
     // Will update the search term given the proper event
     updateGradeSearchText = (event) => {
-        this.props.callback(this.state.gradeSearchText)
-        this.setState({ gradeSearchText: event.target.value });
+        //this.setState({ gradeSearchText: event.target.value });
+        this.props.callback(event.target.value);
     }
 
     render = () => 

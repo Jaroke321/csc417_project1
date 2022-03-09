@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { SearchBar } from './searchBar';
+import { Table } from './Table';
 
 export default class App extends Component {
 
@@ -18,7 +20,7 @@ export default class App extends Component {
 
   // Will update the search term given the proper event
   updateGradeSearchText = (event) => {
-    this.setState({ gradeSearchText: event.target.value });
+    this.setState({ gradeSearchText: event });
   }
 
   // Toggles the took button when pressed
@@ -83,9 +85,7 @@ export default class App extends Component {
     // Create the HTML with the correct rows determined above
     return (
       <div>
-        <h4 className="bg-primary text-white text-center p-2">
-          <input className='form-control' placeholder='Enter A-D or all' maxLength={3} value={ this.state.gradeSearchText } onChange={ this.updateGradeSearchText } />
-        </h4>
+        <SearchBar gradeSearchText={ this.state.gradeSearchText } callback={ this.updateGradeSearchText } />
         <div className='container-fluid'>
           <table className='table table-striped table-bordered'>
             <thead>
